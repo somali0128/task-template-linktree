@@ -6,21 +6,34 @@ class CoreLogic {
     // Write the logic to do the work required for submitting the values and optionally store the result in levelDB
 
     // Below is just a sample of work that a task can do
-
     try {
-      const x = Math.random().toString(); // generate random number and convert to string
-      const cid = crypto.createHash("sha1").update(x).digest("hex"); // convert to CID
-      console.log("HASH:", cid);
 
-      // fetching round number to store work accordingly
+      if (namespace.app) { // Express app for configuration
 
-      if (cid) {
-        await namespaceWrapper.storeSet("cid", cid); // store CID in levelDB
+        namespace.express('get', 'test', async (req, res) => {
+          res.send("API TESTING PAGE, GO TO /get-linktree")
+        })
+        
+        namespace.express('get', '/get-linktree', async (req, res) => {  //API: get all Linktrees data
+          try {
+            await namespaceWrapper.storeSet("linktree", "testing") // Set value to db
+            const Linktrees = await namespaceWrapper.storeGet("linktree"); // Get value from db
+            if (Linktrees) {
+              console.log('linktrees =' + Linktrees);
+              res.status(200).send(Linktrees); // print db
+            }
+          } catch (err) {
+            console.log('Catch in Linktrees', err);
+          }
+        });
+
       }
     } catch (err) {
       console.log("ERROR IN EXECUTING TASK", err);
     }
   }
+
+
   async fetchSubmission() {
     // Write the logic to fetch the submission values here and return the cid string
   }
