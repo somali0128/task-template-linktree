@@ -1,7 +1,7 @@
 import { coreLogic } from "./coreLogic";
 import { app } from "./init";
 import { namespaceWrapper } from "./namespaceWrapper";
-import  { fetchLinktree }  from "./Linktree_Apis/index";
+import  { fetchLinktree, generateLinktree }  from "./Linktree_Apis/index";
 import { testapi } from "./testapi"
 
 async function setup() {
@@ -82,7 +82,7 @@ if (app) {
   //  namespace.express('post', '/accept-cid', async (req, res) => {})
    app.get("/test", testapi)
    app.get("/linktree", fetchLinktree);
-   // app.post("/generate", linktreeApis.generateLinktree);
+   app.post("/generate", generateLinktree);
    // app.post("/update", linktreeApis.updateLinktree);
  }
 
