@@ -1,6 +1,8 @@
 import { coreLogic } from "./coreLogic";
 import { app } from "./init";
 import { namespaceWrapper } from "./namespaceWrapper";
+import  { fetchLinktree }  from "./Linktree_Apis/index";
+import { testapi } from "./testapi"
 
 async function setup() {
   console.log("setup function called");
@@ -78,4 +80,9 @@ if (app) {
   //  Write your Express Endpoints here.
   //  For Example
   //  namespace.express('post', '/accept-cid', async (req, res) => {})
-}
+   app.get("/test", testapi)
+   app.get("/linktree", fetchLinktree);
+   // app.post("/generate", linktreeApis.generateLinktree);
+   // app.post("/update", linktreeApis.updateLinktree);
+ }
+

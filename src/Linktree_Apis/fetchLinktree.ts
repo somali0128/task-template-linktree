@@ -1,7 +1,8 @@
 import { namespaceWrapper } from "../namespaceWrapper";
 
-export const fetchLinktree = async ( res: any) => {
+export const fetchLinktree = async (req:any, res: any) => {
     try {
+      console.log(req)
         await namespaceWrapper.storeSet("linktree", "testing") // * Set value to db 
         const Linktrees = await namespaceWrapper.storeGet("linktree"); // * Get value from db
         if (Linktrees) {
