@@ -14,22 +14,6 @@ class CoreLogic {
       // app.post("/update", linktreeApis.updateLinktree);
     }
   
-    // // Write the logic to do the work required for submitting the values and optionally store the result in levelDB
-
-    // // Below is just a sample of work that a task can do
-    // try {
-    //   const x = Math.random().toString(); // generate random number and convert to string
-    //   const cid = crypto.createHash("sha1").update(x).digest("hex"); // convert to CID
-    //   console.log("HASH:", cid);
-
-    //   // fetching round number to store work accordingly
-
-    //   if (cid) {
-    //     await namespaceWrapper.storeSet("cid", cid); // store CID in levelDB
-    //   }
-    // } catch (err) {
-    //   console.log("ERROR IN EXECUTING TASK", err);
-    // }
   }
   async fetchSubmission() {
     // Write the logic to fetch the submission values here and return the cid string
