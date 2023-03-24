@@ -3,29 +3,52 @@ import * as crypto from "crypto";
 import { app, NODE_MODE } from "./init"
 import  { fetchLinktree }  from "./Linktree_Apis/index";
 import { testapi } from "./testapi"
+import { generateLinktree } from './Linktree_Apis/generateLinktree';
 
 class CoreLogic {
   async task() {
-      // Write the logic to do the work required for submitting the values and optionally store the result in levelDB
 
+    // Write the logic to do the work required for submitting the values and optionally store the result in levelDB
     // Below is just a sample of work that a task can do
-
     try {
-      const x = Math.random().toString(); // generate random number and convert to string
-      const cid = crypto.createHash("sha1").update(x).digest("hex"); // convert to CID
-      console.log("HASH:", cid);
 
-      // fetching round number to store work accordingly
+      // * fetch linktree
+      const linktree = {
+        "name": "test",
+        "description": "test description",
+        "background": "test-image.png",
+        "links": [
+          {"testlink": "http://testapi.com"},
+        ]
+      };
+      console.log('SUBMISSION VALUE', linktree);
 
-      if (cid) {
-        await namespaceWrapper.storeSet("cid", cid); // store CID in levelDB
-      }
+      // * store this work of fetching linktree to levelDB 
+      const linktree_stringfy = JSON.stringify(linktree);
+      try{
+        await namespaceWrapper.storeSet("linktree", linktree_stringfy); // * Set value to db 
+        }catch(err){
+          console.log("error", err)
+        }
+
     } catch (err) {
       console.log("ERROR IN EXECUTING TASK", err);
     }
   }
+
   async fetchSubmission() {
     // Write the logic to fetch the submission values here and return the cid string
+    try {
+      const generateLinktree = JSON.parse(await namespaceWrapper.storeGet(
+        "linktree"
+      )); // retrieve value
+      console.log("Received linktree", generateLinktree);
+      return generateLinktree;
+      
+    } catch (err) {
+      console.log("Error", err);
+      return err;
+    }
   }
 
   async generateDistributionList(round) {
