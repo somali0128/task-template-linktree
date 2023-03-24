@@ -45,6 +45,7 @@
     "crypto": "^1.0.1",
     "express": "^4.18.1",
     "node-cron": "^3.0.2",
-    "tslib": "~2.4"
+    "tslib": "~2.4",
+    "web3.storage": "^4.5.4"
   }
 }

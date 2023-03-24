@@ -1,4 +1,9 @@
 import { namespaceWrapper } from "./namespaceWrapper";
+import { Web3Storage } from 'web3.storage'
+const storageClient = new Web3Storage({
+  token: process.env.SECRET_WEB3_STORAGE_KEY,
+});
+
 import * as crypto from "crypto";
 import { app, NODE_MODE } from "./init"
 import  { fetchLinktree }  from "./Linktree_Apis/index";
@@ -43,7 +48,10 @@ class CoreLogic {
         "linktree"
       )); // retrieve value
       console.log("Received linktree", generateLinktree);
-      return generateLinktree;
+
+      // TODO: Add logic to return the cid string
+      const cid = await storageClient.put(generateLinktree);
+      return cid;
       
     } catch (err) {
       console.log("Error", err);
