@@ -24,7 +24,8 @@ class CoreLogic {
         "background": "test-image.png",
         "links": [
           {"testlink": "http://testapi.com"},
-        ]
+        ],
+        "pubkey":"pubkey"
       };
       console.log('SUBMISSION VALUE', linktree);
 
@@ -32,6 +33,7 @@ class CoreLogic {
       const linktree_stringfy = JSON.stringify(linktree);
       try{
         await namespaceWrapper.storeSet("linktree", linktree_stringfy); // * Set value to db 
+        console.log("Stored linktree to levelDB, task() done");
         }catch(err){
           console.log("error", err)
         }
@@ -49,7 +51,7 @@ class CoreLogic {
       )); // retrieve value
       console.log("Received linktree", generateLinktree);
 
-      // TODO: Add logic to return the cid string
+      // * Add logic to return the cid string
       const cid = await storageClient.put(generateLinktree);
       return cid;
       

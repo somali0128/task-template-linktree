@@ -33,7 +33,7 @@ async function setup() {
   If you wish to do the development by avoiding the timers then you can do the intended calls to K2 
   directly using these function calls. 
 
-  To disable timers please set the TIMERS flag in task-node ENV to disable
+  To disable timers please set the TIMERS flag in task-node ENV to false
 
   NOTE : K2 will still have the windows to accept the submission value, audit, so you are expected
   to make calls in the intended slots of your round time. 
@@ -41,16 +41,14 @@ async function setup() {
   */
 
   // Get the task state
-  //console.log(await namespaceWrapper.getTaskState());
+  console.log(await namespaceWrapper.getTaskState());
 
-  //GET ROUND
-
+  // GET ROUND
   // const round = await namespaceWrapper.getRound();
   // console.log("ROUND", round);
 
   // Call to do the work for the task
-
-  //await coreLogic.task();
+  await coreLogic.task();
 
   // Submission to K2 (Preferablly you should submit the cid received from IPFS)
 
