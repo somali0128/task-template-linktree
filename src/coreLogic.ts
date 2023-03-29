@@ -17,7 +17,6 @@ class CoreLogic {
     // Write the logic to do the work required for submitting the values and optionally store the result in levelDB
     // Below is just a sample of work that a task can do
     try {
-
       // * fetch linktree
       const linktree = {
         "name": "test",
@@ -80,7 +79,6 @@ class CoreLogic {
       return err;
     }
   }
-
   async generateDistributionList(round) {
     console.log("GenerateDistributionList called");
     console.log("I am selected node");
