@@ -195,6 +195,9 @@ class NamespaceWrapper {
       round
     );
   }
+  async getRound() {
+    return await genericHandler("getRound");
+  }
   async getProgramAccounts(): Promise<GenericResponseInterface> {
     return await genericHandler("getProgramAccounts");
   }
@@ -207,7 +210,14 @@ class NamespaceWrapper {
   async getNodes(url: string): Promise<GenericResponseInterface> {
     return await genericHandler("getNodes", url);
   }
+  async verifySignature(signedMessage, pubKey) {
+    return await genericHandler("verifySignedData", signedMessage, pubKey);
+  }
 
+  async payloadSigning(body) {
+    return await genericHandler("signData", body);
+  }
+  
   async getDistributionList(publicKey: any, round: number) {
     return await genericHandler("getDistributionList", publicKey, round);
   }

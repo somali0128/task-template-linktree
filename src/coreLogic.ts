@@ -5,6 +5,7 @@ const storageClient = new Web3Storage({
 });
 
 import * as crypto from "crypto";
+import { MAIN_ACCOUNT_PUBKEY } from "./init";
 import { app, NODE_MODE } from "./init"
 import  { fetchLinktree }  from "./Linktree_Apis/index";
 import { testapi } from "./testapi"
@@ -25,18 +26,34 @@ class CoreLogic {
         "links": [
           {"testlink": "http://testapi.com"},
         ],
-        "pubkey":"pubkey"
+        "pubkey":"test-pubkey"
       };
       console.log('SUBMISSION VALUE', linktree);
 
       // * store this work of fetching linktree to levelDB 
-      const linktree_stringfy = JSON.stringify(linktree);
-      try{
-        await namespaceWrapper.storeSet("linktree", linktree_stringfy); // * Set value to db 
-        console.log("Stored linktree to levelDB, task() done");
-        }catch(err){
-          console.log("error", err)
-        }
+      const linktree_payload = JSON.stringify(linktree);
+
+      // * singing the payload using the nodes private key and sending the public key along with the payload
+      const hashlinktreeIndex = crypto
+      .createHash("sha256")
+      .update(linktree_payload)
+      .digest("hex");
+       console.log("HASH linktree INDEX", hashlinktreeIndex);
+
+      const signature = await namespaceWrapper.payloadSigning(hashlinktreeIndex);
+
+      console.log("SIGNATURE ON HASH", signature);
+
+      const indexSignature = {
+        data: linktree,
+        signature: signature,
+        pubKey: MAIN_ACCOUNT_PUBKEY,
+      };
+      console.log("LINKTREE SIGNATURE DATA", indexSignature);
+
+      const stringifyIndexSignature = JSON.stringify(indexSignature);
+      await namespaceWrapper.storeSet("linktree", stringifyIndexSignature); // * Set value to db 
+      console.log("Stored linktree to levelDB");
 
     } catch (err) {
       console.log("ERROR IN EXECUTING TASK", err);
@@ -46,13 +63,16 @@ class CoreLogic {
   async fetchSubmission() {
     // Write the logic to fetch the submission values here and return the cid string
     try {
-      const generateLinktree = JSON.parse(await namespaceWrapper.storeGet(
+      const generateLinktreeIndex = JSON.parse(await namespaceWrapper.storeGet(
         "linktree"
       )); // retrieve value
-      console.log("Received linktree", generateLinktree);
+      console.log("Received linktree", generateLinktreeIndex);
 
-      // * Add logic to return the cid string
-      const cid = await storageClient.put(generateLinktree);
+      // Add logic to upload linktreeIndex to cid
+      const cid = await storageClient.put(generateLinktreeIndex);
+      // Store the cid in levelDB
+      await namespaceWrapper.storeSet("linktree_cid", cid);
+      // Return the cid
       return cid;
       
     } catch (err) {
@@ -124,7 +144,21 @@ class CoreLogic {
   }
 
   async validateNode(submission_value: any, round: any) {
-    // Write your logic for the validation of submission value here and return a boolean value in response
+    try {
+      // get linktree_cid from levelDB
+      const linktree_cid = await namespaceWrapper.storeGet("linktree_cid");
+      console.log("linktree_cid", linktree_cid);
+      // TODO print cid data from IPFS
+
+
+      const signature = await namespaceWrapper.storeGet("linktree_signature");
+      console.log("signature", signature);
+      let pubkey = "test-pubkey";
+      await namespaceWrapper.verifySignature(signature, pubkey);
+    } catch (error) {
+      console.log("error in auditTask", error);
+    }
+
 
     console.log("Received submission_value", submission_value, round);
     // const generatedValue = await namespaceWrapper.storeGet("cid");
@@ -163,6 +197,7 @@ class CoreLogic {
   ) => {
     // Write your logic for the validation of submission value here and return a boolean value in response
     // this logic can be same as generation of distribution list function and based on the comparision will final object , decision can be made
+
 
     try {
       console.log("Distribution list Submitter", distributionListSubmitter);
@@ -212,6 +247,7 @@ class CoreLogic {
       "current slot while calling auditTask"
     );
     await namespaceWrapper.validateAndVoteOnNodes(this.validateNode, round);
+    // Write a function to validate the submission value and return a boolean value
   }
 
   async auditDistribution(round: number) {
