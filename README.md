@@ -1,4 +1,4 @@
-# K2-Task-Template
+# Linktree-Task-Template
 Tasks run following a periodic structure of 'rounds':
 
 ![Screenshot_20230307-091958](https://user-images.githubusercontent.com/66934242/223565192-3ecce9c6-0f9a-4a58-8b02-2db19c61141f.png)
@@ -14,6 +14,7 @@ If this is your first time writing a Koii Task, you might want to use the [task 
 ## Requirements
  - [Node >=16.0.0](https://nodejs.org)
  - [Docker compose](https://docs.docker.com/compose/install/docker)
+ - Web3.storage Key (Add link)
 
 ## What's in the template?
 `index.js` is the hub of your app, and ties together the other pieces. This will be the entrypoint when your task runs on Task Nodes
@@ -53,7 +54,14 @@ There are in total 9 functions in CoreLogic which the you can modify according t
 9. *auditDistribution()* - makes call to namespace of task-node to raise an audit against the distribution list if the validation fails.
 
 # Testing and Deploying
-Before you begin this process, be sure to check your code and write unit tests wherever possible to verify individual core logic functions. Testing using the docker container should be mostly used for consensus flows, as it will take longer to rebuild and re-deploy the docker container.
+
+## Local test layout
+
+### How to local test
+
+### How to test by using docker
+
+
 
 ## Build
 Before deploying a task, you'll need to build it into a single file executable by running
