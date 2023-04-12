@@ -1,5 +1,13 @@
-# K2-Task-Template
+# K2-LINKED TREE TASK
+
 Tasks run following a periodic structure of 'rounds':
+
+execute task => {
+    1. Do the work
+    2. Audit the work   
+    3. Pay rewards or slash stake
+
+}
 
 ![Screenshot_20230307-091958](https://user-images.githubusercontent.com/66934242/223565192-3ecce9c6-0f9a-4a58-8b02-2db19c61141f.png)
 
@@ -9,18 +17,17 @@ Each round is set by a specific time period, and nodes participate by uploading 
 
 For more information on how the Task Flow works, check out [the runtime environment docs](https://docs.koii.network/microservices-and-tasks/what-are-tasks/gradual-consensus).
 
-If this is your first time writing a Koii Task, you might want to use the [task organizer](https://www.figma.com/community/file/1220194939977550205/Task-Outline).
 
 ## Requirements
  - [Node >=16.0.0](https://nodejs.org)
  - [Docker compose](https://docs.docker.com/compose/install/docker)
 
-## What's in the template?
-`index.js` is the hub of your app, and ties together the other pieces. This will be the entrypoint when your task runs on Task Nodes
+## What's in the Linktree template?
+`index.js` is the hub of this app, and ties together the other pieces. This will be the entrypoint when the task runs on Task Nodes
 
 `NamespaceWrappers.js` contains the interfaces to make API calls to the core of the task-node. It contains all the necessary functions required to submit and audit the work, as well as the distribution lists 
 
-`coreLogic.js` is where you'll define your task, audit, and distribution logic, and controls the majority of task functionality. You can of course break out separate features into sub-files and import them into the core logic before web-packing.
+`coreLogic.js` is where we have defined the task, audit, and distribution logic. This controls the majority of task functionality. We havw broken this down into subfiles namely linktree_task.js and linktree_validate
 
 ## Runtime Options
 There are two ways to run your task when doing development:
@@ -29,10 +36,20 @@ There are two ways to run your task when doing development:
 
 2. With Timer OFF - This allows you to do manual calls to K2 and disables the triggers for round managemnt on K2. Transactions are only accepted during the correct period. Guide for manual calls is in index.js
 
-# Modifying CoreLogic.js
+# linktree_task.js
+
+The linktree_task file exports a function that gets a list of proofs and submits it to the IPFS, and is returned a CID
+
+# linktree_validate.js
+
+The linktree_validate file takes a submission value as an argument and checks if the signature is valid 
+
+
+# CoreLogic.js
+
 Task nodes will trigger a set of predefined functions during operation. 
 
-There are in total 9 functions in CoreLogic which the you can modify according to your needs: 
+There are in total 9 functions in CoreLogic:
 
 1. *task()* - The logic for what your task should do goes here. There is a window in round that is dedicated to do work. The code in task is executed in that window. 
 
@@ -52,8 +69,55 @@ There are in total 9 functions in CoreLogic which the you can modify according t
 
 9. *auditDistribution()* - makes call to namespace of task-node to raise an audit against the distribution list if the validation fails.
 
-# Testing and Deploying
-Before you begin this process, be sure to check your code and write unit tests wherever possible to verify individual core logic functions. Testing using the docker container should be mostly used for consensus flows, as it will take longer to rebuild and re-deploy the docker container.
+# Testing 
+
+# **1. test_dbmodel**
+
+   This is where you test your linktree data storage locally
+   The file contains test functions for getting a Linktree by publickey , setting a link tree, getting all linked trees, setting node proofs, getting node proofs,
+   setting proofs, getting proofs and getting all proofs
+
+   All of these functions have been commented out and you can test them however you need by removing the comments. When you test a file called localKOIIDB is created that
+   saves all the data. To restart the testing process, you can delete that file
+
+# 2. unitTest
+
+    This tests the coreLogic of the link tree. 
+
+
+# 2. test_cidValidation
+
+    Checks if your validation function is working
+   
+
+# 4. test_docker_submitlinktree
+
+    Tests if the docker submission works and correctly sends the task data to local db
+
+# 5. test_endpoint
+
+    Checks the endpoint
+
+# 6. test_mergedData
+
+    -----
+
+# 7. test_nacl
+
+    Tests your validation function
+
+# 8. test_readstram
+
+    -----
+
+# 9. test_submitLinktree
+
+    Tests if a link tree data is being sent to the local endpoint
+
+# 10. check_task-status
+
+    This test checks the status of the task. It gives all the information about the task such as it's name, manager address, whitelist status, submissions etc 
+    
 
 ## Build
 Before deploying a task, you'll need to build it into a single file executable by running
