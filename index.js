@@ -11,6 +11,7 @@ const nacl = require('tweetnacl');
 const fs = require('fs');
 const db = require('./db_model');
 const routes = require('./routes');
+const path = require('path');
 
 async function setup() {
   
