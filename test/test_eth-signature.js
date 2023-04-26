@@ -17,23 +17,35 @@ const eth_address = wallet.getAddressString();
 // Define your message
 const data = {
     uuid: uuidv4(),
-    linktree: [
+    linktree:
+    {
+    name: 'Abdul Anwar',
+    description: "Loves a good crypto meme or two",
+    image: 'https://bafybeifm5iwlde7fos2o4c4ztbkkyfm66wv7b6oh7gxkthy7obhmwstojm.ipfs.w3s.link/abdul.jpg',
+    background: '',
+    links: [
       {
-        key: 'official',
-        label: 'Official Website',
-        redirectUrl: 'https://spheron.network/',
+        key: 'telegram',
+        label: 'Telegram',
+        redirectUrl: 'https://t.me/Abdul_Koii',
       },
       {
         key: 'twitter',
         label: 'Twitter',
-        redirectUrl: 'https://twitter.com/blockchainbalak',
+        redirectUrl: 'https://twitter.com/DoolChain',
       },
       {
-        key: 'github',
-        label: 'GitHub',
-        redirectUrl: 'https://github.com/spheronFdn/',
+        key: 'official',
+        label: 'Koii Network',
+        redirectUrl: 'https://www.koii.network/',
+      },
+      {
+        key: 'website',
+        label: 'Koii Docs',
+        redirectUrl: 'https://docs.koii.network/',
       },
     ],
+  },
     timestamp: Date.now(),
   };
 
