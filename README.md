@@ -1,4 +1,28 @@
-# Link tree task
+# [Linktree task] - ARCHIVED
+
+This repository is no longer active and has been archived. 
+
+For latest updates and active development, please head over to the new repository at [koii-network/linktree-app](https://github.com/koii-network/linktree-app).
+
+## About this Archived Repository
+
+This linktree task template is out of dated and latest update and feature can be found in [koii-network/linktree-app](https://github.com/koii-network/linktree-app)
+with the new database build and namespaceWrapper.
+
+## The New Repository 
+
+New Linktree task template have:
+- Frontend build template
+- New database nedb setup
+- Updates on namespaceWrapper and init.js
+
+## Questions?
+
+If you have any questions, feel free to create an issue at the new repository. We appreciate your contribution and cooperation.
+
+# OLD README
+
+# Linktree task
 
 Tasks run following a periodic structure of 'rounds':
 
